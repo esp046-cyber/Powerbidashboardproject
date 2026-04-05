@@ -1,0 +1,1115 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #1a6ef5;
+    --accent2: #0ecf8e;
+    --accent3: #f59e0b;
+    --accent4: #ef4444;
+    --surface: var(--color-background-primary);
+    --surface2: var(--color-background-secondary);
+    --border: var(--color-border-tertiary);
+    --text: var(--color-text-primary);
+    --muted: var(--color-text-secondary);
+    --hint: var(--color-text-tertiary);
+  }
+
+  .wrap { font-family: 'Sora', sans-serif; color: var(--text); padding: 0 0 3rem; max-width: 900px; }
+
+  .hero {
+    background: linear-gradient(135deg, #0f1c3a 0%, #1a3a6b 50%, #0e2f5a 100%);
+    border-radius: var(--border-radius-lg);
+    padding: 2.5rem 2rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(26,110,245,0.15);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 300px; height: 150px;
+    border-radius: 50%;
+    background: rgba(14,207,142,0.08);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(26,110,245,0.25);
+    color: #7eb8ff;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 0.5px solid rgba(126,184,255,0.3);
+    margin-bottom: 1rem;
+  }
+  .hero h1 { font-size: 26px; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 0.5rem; }
+  .hero p { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.6; }
+
+  .nav-tabs {
+    display: flex; gap: 6px; margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px; font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-title {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .section-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .section-title h2 { font-size: 20px; font-weight: 600; }
+  .section-title p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .step-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .step-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+  }
+  .step-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .step-header:hover { background: var(--surface2); }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500;
+    flex-shrink: 0;
+  }
+  .step-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .step-chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+  .step-card.open .step-chevron { transform: rotate(180deg); }
+  .step-body { display: none; padding: 0 16px 16px; }
+  .step-card.open .step-body { display: block; }
+
+  .step-body p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 0.75rem; }
+  .step-body p:last-child { margin-bottom: 0; }
+
+  .code-block {
+    background: #0f1c3a;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #a8d8ff;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-block .kw { color: #c792ea; }
+  .code-block .fn { color: #82aaff; }
+  .code-block .str { color: #c3e88d; }
+  .code-block .num { color: #f78c6c; }
+  .code-block .cm { color: #546e7a; }
+  .code-block .op { color: #89ddff; }
+
+  .tip-box {
+    display: flex; gap: 10px;
+    background: var(--surface2);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  .tip-box .tip-icon { font-size: 14px; flex-shrink: 0; }
+  .tip-box p { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  .warn-box {
+    display: flex; gap: 10px;
+    background: var(--surface2);
+    border-left: 3px solid var(--accent3);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  .warn-box p { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 0; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .tag {
+    font-size: 11px; padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .tag.blue { background: #e6f1fb; color: #0c447c; border-color: #b5d4f4; }
+  .tag.green { background: #eaf3de; color: #27500a; border-color: #c0dd97; }
+  .tag.amber { background: #faeeda; color: #633806; border-color: #fac775; }
+  .tag.red { background: #fcebeb; color: #791f1f; border-color: #f7c1c1; }
+
+  .kpi-demo {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px; margin: 12px 0;
+  }
+  .kpi-card {
+    background: var(--surface2);
+    border-radius: var(--border-radius-md);
+    padding: 12px;
+    text-align: center;
+    border: 0.5px solid var(--border);
+  }
+  .kpi-val { font-size: 22px; font-weight: 600; margin-bottom: 2px; }
+  .kpi-label { font-size: 11px; color: var(--muted); }
+  .kpi-delta { font-size: 11px; margin-top: 3px; font-weight: 500; }
+  .delta-up { color: #1a9e6e; }
+  .delta-dn { color: #c0392b; }
+
+  .visual-flow {
+    display: flex; align-items: center; gap: 6px;
+    flex-wrap: wrap; margin: 12px 0;
+  }
+  .flow-box {
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px; font-weight: 500;
+  }
+  .flow-arrow { color: var(--muted); font-size: 14px; }
+
+  .checklist { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--muted); }
+  .check-icon { color: var(--accent2); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .progress-bar-wrap { margin: 1rem 0; }
+  .pb-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .pb-track { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .pb-fill { height: 100%; border-radius: 3px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0; }
+  @media(max-width:600px){ .grid2 { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--border-radius-md);
+    padding: 12px;
+  }
+  .mini-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .mini-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .scada-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; margin: 12px 0;
+  }
+  @media(max-width:600px){ .scada-grid { grid-template-columns: 1fr 1fr; } }
+  .scada-cell {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 10px;
+    border: 0.5px solid var(--border);
+    text-align: center;
+  }
+  .scada-led {
+    width: 10px; height: 10px; border-radius: 50%;
+    display: inline-block; margin-bottom: 4px;
+  }
+  .led-green { background: #1a9e6e; }
+  .led-red { background: #e24b4a; }
+  .led-amber { background: #f59e0b; }
+  .scada-cell .val { font-size: 18px; font-weight: 600; margin: 2px 0; }
+  .scada-cell .lbl { font-size: 10px; color: var(--muted); }
+
+  .separator { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+
+  .export-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+  @media(max-width:500px){ .export-steps { grid-template-columns: 1fr; } }
+  .export-card {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 14px;
+    border: 0.5px solid var(--border);
+  }
+  .export-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .export-card ol { padding-left: 16px; }
+  .export-card li { font-size: 12px; color: var(--muted); line-height: 1.8; }
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-badge">Complete Tutorial Series</div>
+    <h1>Power BI Dashboard Projects</h1>
+    <p>Three complete projects: Microsoft Forms live dashboard, SCADA-style industrial monitoring, and maintenance tracking — with step-by-step instructions, DAX formulas, and export automation.</p>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showTab('forms')">1. Forms → Live Dashboard</button>
+    <button class="tab-btn" onclick="showTab('scada')">2. SCADA Operations</button>
+    <button class="tab-btn" onclick="showTab('maint')">3. Maintenance Tracker</button>
+  </div>
+
+  <!-- ====================== PROJECT 1 ====================== -->
+  <div class="section active" id="tab-forms">
+
+    <div class="section-title">
+      <div class="section-icon" style="background:#e6f1fb;">📋</div>
+      <div>
+        <h2>Project 1 — Microsoft Forms → Live Power BI Dashboard</h2>
+        <p>Connect a live form to a dynamic dashboard with filters, KPIs, charts, and auto-export</p>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag blue">Power BI Desktop</span>
+      <span class="tag blue">Microsoft Forms</span>
+      <span class="tag blue">SharePoint / OneDrive</span>
+      <span class="tag green">OData Feed</span>
+      <span class="tag green">Power Automate</span>
+    </div>
+
+    <div class="visual-flow" style="margin-bottom:1.5rem;">
+      <div class="flow-box">Microsoft Forms</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">SharePoint List</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Power BI OData</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">Live Dashboard</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">PDF / PPTX Export</div>
+    </div>
+
+    <div class="kpi-demo">
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#1a6ef5;">342</div>
+        <div class="kpi-label">Total Responses</div>
+        <div class="kpi-delta delta-up">▲ 12 today</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#0ecf8e;">4.7</div>
+        <div class="kpi-label">Avg Rating</div>
+        <div class="kpi-delta delta-up">▲ +0.2 vs last week</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#f59e0b;">89%</div>
+        <div class="kpi-label">Completion Rate</div>
+        <div class="kpi-delta delta-dn">▼ -2%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#ef4444;">24</div>
+        <div class="kpi-label">Low Scores (&lt;3)</div>
+        <div class="kpi-delta delta-up">▲ needs action</div>
+      </div>
+    </div>
+
+    <div class="step-list">
+
+      <!-- STEP 1 -->
+      <div class="step-card open">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">1</div>
+          <div class="step-title">Create and configure your Microsoft Form</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Go to <strong>forms.microsoft.com</strong> and create a new form. Design it with structured question types that will translate cleanly to data columns in Power BI.</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>Use <strong>Choice</strong> questions for categorical data (department, region, satisfaction level)</div>
+            <div class="check-item"><span class="check-icon">✓</span>Use <strong>Rating</strong> questions (1–5 or 1–10 scales) for KPI calculations</div>
+            <div class="check-item"><span class="check-icon">✓</span>Use <strong>Date</strong> fields if tracking over time</div>
+            <div class="check-item"><span class="check-icon">✓</span>Avoid open-text fields for your main metrics — they can't be aggregated easily</div>
+            <div class="check-item"><span class="check-icon">✓</span>Enable <strong>Response Notifications</strong> so you know when new data arrives</div>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p>Name each question clearly (e.g., "Department", "Satisfaction_Score") — these become your column headers in the data source. Avoid spaces and special characters if possible.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">2</div>
+          <div class="step-title">Connect responses to SharePoint via Power Automate</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>The most reliable live connection method is piping each Form submission into a SharePoint List, which Power BI can refresh automatically.</p>
+          <p><strong>In Power Automate (flow.microsoft.com):</strong></p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>Create a new flow: <em>Automated → When a new response is submitted (Microsoft Forms)</em></div>
+            <div class="check-item"><span class="check-icon">✓</span>Add action: <em>Get response details</em> — select your Form ID and Response ID</div>
+            <div class="check-item"><span class="check-icon">✓</span>Add action: <em>Create item (SharePoint)</em> — map each form field to a SharePoint column</div>
+            <div class="check-item"><span class="check-icon">✓</span>Add a <em>Timestamp</em> column using <code>utcNow()</code> expression for time intelligence in Power BI</div>
+          </div>
+          <div class="code-block"><span class="cm">// Power Automate expression for submission timestamp</span>
+<span class="fn">utcNow</span>()
+
+<span class="cm">// Alternatively, convert to local timezone</span>
+<span class="fn">convertTimeZone</span>(<span class="fn">utcNow</span>(),<span class="str">'UTC'</span>,<span class="str">'Asia/Manila'</span>)</div>
+          <div class="warn-box">
+            <span style="font-size:14px;flex-shrink:0;">⚠️</span>
+            <p>Make sure the SharePoint site column types match the form data types (Number columns for ratings, Date columns for dates, Single line of text for everything else).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">3</div>
+          <div class="step-title">Connect Power BI to SharePoint (OData or SharePoint connector)</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Open Power BI Desktop and connect directly to your SharePoint List:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>Home → <strong>Get Data</strong> → <em>SharePoint Online List</em></div>
+            <div class="check-item"><span class="check-icon">✓</span>Paste the SharePoint site root URL (not the list URL): <code>https://yourorg.sharepoint.com/sites/yoursite</code></div>
+            <div class="check-item"><span class="check-icon">✓</span>Select <strong>2.0</strong> implementation for better performance</div>
+            <div class="check-item"><span class="check-icon">✓</span>Navigate to your list → Transform Data to open Power Query</div>
+          </div>
+          <p>In Power Query Editor, clean the data:</p>
+          <div class="code-block"><span class="cm">// Remove unnecessary SharePoint system columns</span>
+<span class="cm">// Keep only: ID, Title, your form fields, Timestamp</span>
+
+<span class="cm">// Change column types correctly</span>
+Table.TransformColumnTypes(Source, {
+  {<span class="str">"Satisfaction_Score"</span>, Int64.Type},
+  {<span class="str">"Submission_Date"</span>, type datetime},
+  {<span class="str">"Department"</span>, type text}
+})</div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">4</div>
+          <div class="step-title">Build a Date table for time intelligence</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Time intelligence DAX functions require a proper Date table. Create one in the Data view:</p>
+          <div class="code-block"><span class="cm">// Create Date Table in Power BI (New Table)</span>
+Date_Table = 
+<span class="fn">ADDCOLUMNS</span>(
+  <span class="fn">CALENDAR</span>(
+    <span class="fn">DATE</span>(<span class="num">2024</span>,<span class="num">1</span>,<span class="num">1</span>), 
+    <span class="fn">DATE</span>(<span class="num">2026</span>,<span class="num">12</span>,<span class="num">31</span>)
+  ),
+  <span class="str">"Year"</span>,    <span class="fn">YEAR</span>([Date]),
+  <span class="str">"Month"</span>,   <span class="fn">MONTH</span>([Date]),
+  <span class="str">"MonthName"</span>,<span class="fn">FORMAT</span>([Date],<span class="str">"MMMM"</span>),
+  <span class="str">"Quarter"</span>, <span class="fn">QUARTER</span>([Date]),
+  <span class="str">"Weekday"</span>, <span class="fn">WEEKDAY</span>([Date],<span class="num">2</span>),
+  <span class="str">"IsWeekend"</span>,<span class="fn">IF</span>(<span class="fn">WEEKDAY</span>([Date],<span class="num">2</span>)>=<span class="num">6</span>,<span class="num">1</span>,<span class="num">0</span>)
+)</div>
+          <p>Then mark it as a Date Table: <em>Table tools → Mark as date table → Date column</em>. Create a relationship from <code>Date_Table[Date]</code> to your form responses' <code>Submission_Date</code> column.</p>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">5</div>
+          <div class="step-title">Write DAX measures for KPI cards</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Create these core measures in the Modeling tab → New Measure:</p>
+          <div class="code-block"><span class="cm">// Total responses</span>
+Total_Responses = <span class="fn">COUNTROWS</span>(FormResponses)
+
+<span class="cm">// Average satisfaction score</span>
+Avg_Score = <span class="fn">AVERAGE</span>(FormResponses[Satisfaction_Score])
+
+<span class="cm">// Responses in selected period vs prior period</span>
+Responses_Prior = 
+<span class="fn">CALCULATE</span>([Total_Responses],
+  <span class="fn">DATEADD</span>(Date_Table[Date], -<span class="num">1</span>, <span class="op">MONTH</span>)
+)
+
+<span class="cm">// MoM growth %</span>
+MoM_Growth = 
+<span class="fn">DIVIDE</span>(
+  [Total_Responses] - [Responses_Prior],
+  [Responses_Prior],
+  <span class="num">0</span>
+)
+
+<span class="cm">// % of low scores (score below 3)</span>
+Low_Score_Pct = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">COUNTROWS</span>(
+    <span class="fn">FILTER</span>(FormResponses, FormResponses[Satisfaction_Score] < <span class="num">3</span>)
+  ),
+  [Total_Responses]
+)
+
+<span class="cm">// Completion rate (where all required fields filled)</span>
+Completion_Rate = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">COUNTROWS</span>(<span class="fn">FILTER</span>(FormResponses, 
+    FormResponses[Department] <> <span class="fn">BLANK</span>() &&
+    FormResponses[Satisfaction_Score] <> <span class="fn">BLANK</span>()
+  )),
+  [Total_Responses]
+)</div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">6</div>
+          <div class="step-title">Build the dashboard layout — filters, charts, KPI cards</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Lay out your report page in this order (top → bottom):</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span><strong>Row 1 — Header bar:</strong> Title text box + company logo image + last refresh timestamp using <code>NOW()</code></div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Row 2 — Slicer bar:</strong> Date range slicer (between style) + Department slicer (dropdown) + Region slicer</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Row 3 — KPI cards:</strong> 4 cards using your DAX measures (Total Responses, Avg Score, Completion Rate, Low Scores)</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Row 4 — Charts:</strong> Line chart (responses over time) + Clustered bar (responses by department) + Donut (score distribution)</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Row 5 (optional):</strong> Table visual showing latest 20 responses with conditional formatting on score column</div>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p>Enable <strong>Edit interactions</strong> under Format to control which visuals filter which others. Set the date slicer to filter all, but let the department bar chart cross-filter only the line chart, not the KPI cards (to keep totals visible).</p>
+          </div>
+          <div class="code-block"><span class="cm">// KPI Card — show colored trend arrow</span>
+<span class="cm">// In Format pane of Card visual:</span>
+<span class="cm">// Data label → Conditional formatting → Icon rule</span>
+<span class="cm">// Rule: if [MoM_Growth] > 0 → green up arrow</span>
+<span class="cm">// Rule: if [MoM_Growth] < 0 → red down arrow</span>
+
+<span class="cm">// Conditional formatting on table score column:</span>
+<span class="cm">// Background color rules:</span>
+<span class="cm">// Score 1-2 → Red  |  Score 3 → Amber  |  Score 4-5 → Green</span></div>
+        </div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">7</div>
+          <div class="step-title">Set up automatic scheduled refresh in Power BI Service</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Publish your report and configure live refresh:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>Home → <strong>Publish</strong> → select your workspace in Power BI Service</div>
+            <div class="check-item"><span class="check-icon">✓</span>In Service: Dataset → Settings → Scheduled Refresh</div>
+            <div class="check-item"><span class="check-icon">✓</span>Set refresh frequency: up to 48x/day on Pro, 1x/day on free</div>
+            <div class="check-item"><span class="check-icon">✓</span>For near-real-time: use <strong>DirectQuery</strong> mode in Power BI Desktop for the SharePoint connection (rechecks every 15 min automatically)</div>
+          </div>
+          <div class="warn-box">
+            <span style="font-size:14px;flex-shrink:0;">⚠️</span>
+            <p>DirectQuery mode disables some DAX functions like time intelligence. Use Import mode with frequent scheduled refresh as a balance for most survey dashboards.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 8 -->
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#e6f1fb;color:#0c447c;">8</div>
+          <div class="step-title">Export as PDF & PowerPoint automatically</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="export-steps">
+            <div class="export-card">
+              <h4>📄 Manual Export</h4>
+              <ol>
+                <li>File → Export → Export to PDF</li>
+                <li>File → Export → Export to PowerPoint</li>
+                <li>Exports the current filtered view</li>
+                <li>Each report page = one slide / PDF page</li>
+              </ol>
+            </div>
+            <div class="export-card">
+              <h4>⚡ Automated via Power Automate</h4>
+              <ol>
+                <li>Create a scheduled flow (e.g., every Monday 7 AM)</li>
+                <li>Action: <em>Export to file for Power BI reports</em></li>
+                <li>Set format: PDF or PPTX</li>
+                <li>Action: Send via email or save to SharePoint</li>
+              </ol>
+            </div>
+          </div>
+          <div class="code-block"><span class="cm">// Power Automate HTTP action body for PDF export</span>
+{
+  <span class="str">"format"</span>: <span class="str">"PDF"</span>,
+  <span class="str">"powerBIReportExportConfiguration"</span>: {
+    <span class="str">"settings"</span>: {
+      <span class="str">"locale"</span>: <span class="str">"en-US"</span>
+    },
+    <span class="str">"pages"</span>: [
+      { <span class="str">"pageName"</span>: <span class="str">"ReportSection1"</span> }
+    ]
+  }
+}</div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p>You can pass slicer values into the export API to send department-specific PDFs to each department head automatically — a powerful personalized reporting pattern.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end step-list -->
+  </div>
+
+  <!-- ====================== PROJECT 2 ====================== -->
+  <div class="section" id="tab-scada">
+
+    <div class="section-title">
+      <div class="section-icon" style="background:#faeeda;">🏭</div>
+      <div>
+        <h2>Project 2 — SCADA-Style Operations Monitoring Dashboard</h2>
+        <p>Replicate an industrial control room display with alarms, uptime, and throughput metrics</p>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag amber">Industrial Data</span>
+      <span class="tag amber">Alarm Management</span>
+      <span class="tag green">OEE / Uptime</span>
+      <span class="tag blue">Throughput KPIs</span>
+      <span class="tag blue">Conditional Formatting</span>
+    </div>
+
+    <div class="scada-grid">
+      <div class="scada-cell">
+        <div><span class="scada-led led-green"></span></div>
+        <div class="val">98.2%</div>
+        <div class="lbl">Machine A Uptime</div>
+      </div>
+      <div class="scada-cell">
+        <div><span class="scada-led led-amber"></span></div>
+        <div class="val">87.5%</div>
+        <div class="lbl">Machine B Uptime</div>
+      </div>
+      <div class="scada-cell">
+        <div><span class="scada-led led-red"></span></div>
+        <div class="val">ALARM</div>
+        <div class="lbl">Line C — Temp High</div>
+      </div>
+      <div class="scada-cell">
+        <div><span class="scada-led led-green"></span></div>
+        <div class="val">1,240</div>
+        <div class="lbl">Units/hr Throughput</div>
+      </div>
+      <div class="scada-cell">
+        <div><span class="scada-led led-green"></span></div>
+        <div class="val">OEE 79%</div>
+        <div class="lbl">Overall Equipment</div>
+      </div>
+      <div class="scada-cell">
+        <div><span class="scada-led led-red"></span></div>
+        <div class="val">3</div>
+        <div class="lbl">Active Alarms</div>
+      </div>
+    </div>
+
+    <div class="step-list">
+
+      <div class="step-card open">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#faeeda;color:#633806;">1</div>
+          <div class="step-title">Create sample industrial data sources</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Build three CSV or Excel tables to simulate SCADA historian data. These can be replaced with real OPC-UA, OSIsoft PI, or SQL Server connections later.</p>
+          <div class="code-block"><span class="cm">// machines.csv — equipment list</span>
+MachineID, MachineName, Line, Area, NominalSpeed
+M001, Filler A, Line 1, Packaging, 1500
+M002, Labeller B, Line 1, Packaging, 1800
+M003, Conveyor C, Line 2, Assembly, 2200
+
+<span class="cm">// production_log.csv — shift-level data</span>
+LogID, MachineID, ShiftDate, Shift, RunTime_min, DownTime_min, UnitsProduced, UnitsRejected
+1, M001, 2025-01-06, Morning, 420, 60, 1050, 32
+2, M001, 2025-01-06, Afternoon, 440, 40, 1100, 18
+
+<span class="cm">// alarm_log.csv</span>
+AlarmID, MachineID, AlarmTime, AlarmType, Severity, AcknowledgedTime, ClearedTime
+A001, M003, 2025-01-06 08:14, High Temperature, Critical, 2025-01-06 08:20, 2025-01-06 08:45
+A002, M001, 2025-01-06 10:32, Low Pressure, Warning, 2025-01-06 10:35, NULL</div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p>Generate 90 days of sample data using Excel's SEQUENCE() and RANDARRAY() functions, or use Python/Power Query M to create synthetic test data for a realistic dataset.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#faeeda;color:#633806;">2</div>
+          <div class="step-title">Build the data model and relationships</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>In Power BI's Model view, create these relationships:</p>
+          <div class="visual-flow">
+            <div class="flow-box">Machines</div>
+            <div class="flow-arrow">1:N →</div>
+            <div class="flow-box">Production Log</div>
+          </div>
+          <div class="visual-flow">
+            <div class="flow-box">Machines</div>
+            <div class="flow-arrow">1:N →</div>
+            <div class="flow-box">Alarm Log</div>
+          </div>
+          <div class="visual-flow">
+            <div class="flow-box">Date Table</div>
+            <div class="flow-arrow">1:N →</div>
+            <div class="flow-box">Production Log</div>
+          </div>
+          <div class="code-block"><span class="cm">// OEE calculation — the SCADA gold standard metric</span>
+<span class="cm">// OEE = Availability × Performance × Quality</span>
+
+Availability = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">SUM</span>(Production[RunTime_min]),
+  <span class="fn">SUM</span>(Production[RunTime_min]) + <span class="fn">SUM</span>(Production[DownTime_min])
+)
+
+Performance = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">SUM</span>(Production[UnitsProduced]),
+  <span class="fn">SUMX</span>(Production, 
+    RELATED(Machines[NominalSpeed]) * Production[RunTime_min] / <span class="num">60</span>
+  )
+)
+
+Quality = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">SUM</span>(Production[UnitsProduced]) - <span class="fn">SUM</span>(Production[UnitsRejected]),
+  <span class="fn">SUM</span>(Production[UnitsProduced])
+)
+
+OEE = [Availability] * [Performance] * [Quality]</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#faeeda;color:#633806;">3</div>
+          <div class="step-title">Alarm management DAX and visuals</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block"><span class="cm">// Active alarms = acknowledged but not cleared</span>
+Active_Alarms = 
+<span class="fn">COUNTROWS</span>(
+  <span class="fn">FILTER</span>(Alarm_Log,
+    Alarm_Log[AcknowledgedTime] <> <span class="fn">BLANK</span>() &&
+    Alarm_Log[ClearedTime] = <span class="fn">BLANK</span>()
+  )
+)
+
+<span class="cm">// Unacknowledged alarms (highest priority)</span>
+Unack_Alarms = 
+<span class="fn">COUNTROWS</span>(
+  <span class="fn">FILTER</span>(Alarm_Log, Alarm_Log[AcknowledgedTime] = <span class="fn">BLANK</span>())
+)
+
+<span class="cm">// Mean Time to Acknowledge (MTTA) in minutes</span>
+MTTA = 
+<span class="fn">AVERAGEX</span>(
+  <span class="fn">FILTER</span>(Alarm_Log, Alarm_Log[AcknowledgedTime] <> <span class="fn">BLANK</span>()),
+  <span class="fn">DATEDIFF</span>(
+    Alarm_Log[AlarmTime],
+    Alarm_Log[AcknowledgedTime],
+    <span class="op">MINUTE</span>
+  )
+)
+
+<span class="cm">// Mean Time to Resolve (MTTR)</span>
+MTTR = 
+<span class="fn">AVERAGEX</span>(
+  <span class="fn">FILTER</span>(Alarm_Log, Alarm_Log[ClearedTime] <> <span class="fn">BLANK</span>()),
+  <span class="fn">DATEDIFF</span>(
+    Alarm_Log[AlarmTime],
+    Alarm_Log[ClearedTime],
+    <span class="op">MINUTE</span>
+  )
+)</div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p>For the alarm list visual, use a <strong>Table</strong> with conditional formatting: Critical = red background, Warning = amber, Info = blue. Sort by AlarmTime descending so newest alarms appear first, just like a real SCADA HMI.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#faeeda;color:#633806;">4</div>
+          <div class="step-title">Design the SCADA-style dashboard layout</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>The SCADA aesthetic uses a dark theme, status LEDs, and dense information layout. Configure this in Power BI:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span><strong>Theme:</strong> View → Browse for themes → import a dark JSON theme or use the built-in <em>Executive</em> dark theme as a starting point</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Status indicators:</strong> Use <em>KPI visuals</em> with color rules — green/amber/red based on threshold values</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Gauge charts:</strong> Add circular gauge visuals for OEE (target: 85%), throughput, and availability</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Trend sparklines:</strong> Add small line charts inside the table for per-machine 7-day trend</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Page layout:</strong> Left panel = machine list/tree, Center = main trend chart, Right = KPI column + alarm list</div>
+          </div>
+          <div class="code-block"><span class="cm">// Custom dark SCADA theme (JSON snippet)</span>
+{
+  <span class="str">"name"</span>: <span class="str">"SCADA Dark"</span>,
+  <span class="str">"dataColors"</span>: [<span class="str">"#00FF88"</span>, <span class="str">"#FF6B35"</span>, <span class="str">"#4ECDC4"</span>, <span class="str">"#FFE66D"</span>],
+  <span class="str">"background"</span>: <span class="str">"#0A1628"</span>,
+  <span class="str">"foreground"</span>: <span class="str">"#1E3A5F"</span>,
+  <span class="str">"tableAccent"</span>: <span class="str">"#00FF88"</span>,
+  <span class="str">"visualStyles"</span>: {
+    <span class="str">"*"</span>: { <span class="str">"*"</span>: {
+      <span class="str">"background"</span>: [{ <span class="str">"color"</span>: { <span class="str">"solid"</span>: { <span class="str">"color"</span>: <span class="str">"#0D2137"</span> }}}]
+    }}
+  }
+}</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#faeeda;color:#633806;">5</div>
+          <div class="step-title">Add drill-throughs for machine-level detail</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Create a second page for individual machine deep-dives with drill-through:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>Add a new page: "Machine Detail"</div>
+            <div class="check-item"><span class="check-icon">✓</span>In Visualizations → Drill through — drag <em>MachineName</em> to the Drill-through field well</div>
+            <div class="check-item"><span class="check-icon">✓</span>Add: 30-day OEE trend line, shift-by-shift bar chart, full alarm history table for that machine</div>
+            <div class="check-item"><span class="check-icon">✓</span>On the overview page: right-click any machine bar → Drill through → Machine Detail</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====================== PROJECT 3 ====================== -->
+  <div class="section" id="tab-maint">
+
+    <div class="section-title">
+      <div class="section-icon" style="background:#fcebeb;">🔧</div>
+      <div>
+        <h2>Project 3 — Maintenance Tracking Dashboard</h2>
+        <p>Equipment status overview, downtime trends, preventive maintenance schedules, and automated alerts</p>
+      </div>
+    </div>
+
+    <div class="tag-row">
+      <span class="tag red">CMMS Integration</span>
+      <span class="tag red">PM Schedules</span>
+      <span class="tag amber">Downtime Analysis</span>
+      <span class="tag green">Work Orders</span>
+      <span class="tag blue">Cost Tracking</span>
+    </div>
+
+    <div class="kpi-demo">
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#1a6ef5;">94%</div>
+        <div class="kpi-label">Equipment Availability</div>
+        <div class="kpi-delta delta-up">▲ above 90% target</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#ef4444;">3.2h</div>
+        <div class="kpi-label">MTTR (Repair Time)</div>
+        <div class="kpi-delta delta-dn">▼ target &lt;2h</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#0ecf8e;">87%</div>
+        <div class="kpi-label">PM Compliance</div>
+        <div class="kpi-delta delta-up">▲ on track</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val" style="color:#f59e0b;">₱48K</div>
+        <div class="kpi-label">Maintenance Cost MTD</div>
+        <div class="kpi-delta delta-dn">▼ 12% over budget</div>
+      </div>
+    </div>
+
+    <div class="step-list">
+
+      <div class="step-card open">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#fcebeb;color:#791f1f;">1</div>
+          <div class="step-title">Design the maintenance data model</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Build or import these four tables — they form the backbone of the maintenance dashboard:</p>
+          <div class="code-block"><span class="cm">// equipment.csv — master asset register</span>
+EquipID, EquipName, Category, Location, InstallDate, WarrantyExpiry, CriticalityLevel
+E001, Air Compressor 1, Utilities, Building A, 2019-03-15, 2024-03-15, High
+E002, Conveyor Belt Main, Production, Floor 1, 2020-07-01, 2025-07-01, Critical
+
+<span class="cm">// work_orders.csv — all maintenance events</span>
+WOID, EquipID, WOType, CreatedDate, StartDate, CompletionDate, Status, FailureCode, LaborHours, PartsCost
+WO001, E001, Corrective, 2025-01-08, 2025-01-08, 2025-01-08, Closed, Mechanical, 3.5, 1200
+WO002, E002, Preventive, 2025-01-15, 2025-01-16, 2025-01-16, Closed, Scheduled, 1.0, 0
+
+<span class="cm">// pm_schedule.csv — planned maintenance calendar</span>
+PMID, EquipID, PMType, Frequency, LastCompletedDate, NextDueDate, AssignedTech
+PM001, E001, Oil Change, Monthly, 2025-12-10, 2026-01-10, Tech_001
+PM002, E002, Belt Inspection, Quarterly, 2025-11-01, 2026-02-01, Tech_002
+
+<span class="cm">// downtime_log.csv</span>
+DTID, EquipID, StartTime, EndTime, DowntimeCategory, DowntimeCause
+DT001, E001, 2025-01-08 09:00, 2025-01-08 12:30, Unplanned, Seal Failure</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#fcebeb;color:#791f1f;">2</div>
+          <div class="step-title">Core maintenance DAX measures</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <div class="code-block"><span class="cm">// Equipment Availability %</span>
+Equipment_Availability = 
+<span class="fn">DIVIDE</span>(
+  (<span class="num">24</span> * 30) - <span class="fn">SUM</span>(Downtime[DowntimeHours]),
+  <span class="num">24</span> * 30
+)
+
+<span class="cm">// MTBF — Mean Time Between Failures (hours)</span>
+MTBF = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">SUM</span>(Downtime[OperatingHours]),
+  <span class="fn">COUNTROWS</span>(<span class="fn">FILTER</span>(WorkOrders, WorkOrders[WOType] = <span class="str">"Corrective"</span>))
+)
+
+<span class="cm">// MTTR — Mean Time to Repair (hours)</span>
+MTTR = 
+<span class="fn">AVERAGEX</span>(
+  <span class="fn">FILTER</span>(WorkOrders, WorkOrders[Status] = <span class="str">"Closed"</span>),
+  <span class="fn">DATEDIFF</span>(WorkOrders[StartDate], WorkOrders[CompletionDate], <span class="op">HOUR</span>)
+)
+
+<span class="cm">// PM Compliance % — completed on time</span>
+PM_Compliance = 
+<span class="fn">DIVIDE</span>(
+  <span class="fn">COUNTROWS</span>(
+    <span class="fn">FILTER</span>(WorkOrders,
+      WorkOrders[WOType] = <span class="str">"Preventive"</span> &&
+      WorkOrders[CompletionDate] <= WorkOrders[DueDate]
+    )
+  ),
+  <span class="fn">COUNTROWS</span>(<span class="fn">FILTER</span>(WorkOrders, WorkOrders[WOType] = <span class="str">"Preventive"</span>))
+)
+
+<span class="cm">// Total Maintenance Cost</span>
+Total_Maint_Cost = 
+<span class="fn">SUMX</span>(WorkOrders,
+  WorkOrders[PartsCost] + 
+  (WorkOrders[LaborHours] * <span class="num">500</span>) <span class="cm">// ₱500/hr labor rate</span>
+)
+
+<span class="cm">// Upcoming PMs in next 7 days (alert flag)</span>
+Upcoming_PMs_7d = 
+<span class="fn">COUNTROWS</span>(
+  <span class="fn">FILTER</span>(PM_Schedule,
+    PM_Schedule[NextDueDate] >= <span class="fn">TODAY</span>() &&
+    PM_Schedule[NextDueDate] <= <span class="fn">TODAY</span>() + <span class="num">7</span>
+  )
+)</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#fcebeb;color:#791f1f;">3</div>
+          <div class="step-title">Equipment status matrix visual</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>The equipment status overview is the centerpiece — a matrix or table showing each asset's current state at a glance:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>Use a <strong>Matrix visual</strong>: Rows = Equipment Name, Columns = Month, Values = Availability %</div>
+            <div class="check-item"><span class="check-icon">✓</span>Apply <strong>conditional formatting by rules</strong>: ≥ 95% = green, 85–94% = amber, &lt; 85% = red (background)</div>
+            <div class="check-item"><span class="check-icon">✓</span>Add a separate <strong>Table visual</strong> for live status: Equipment | Last WO Date | Status (Open/Closed) | Next PM Due | Technician</div>
+            <div class="check-item"><span class="check-icon">✓</span>Create a <strong>status column</strong> in Power Query to flag overdue PMs:</div>
+          </div>
+          <div class="code-block"><span class="cm">// Power Query M — add status column to PM_Schedule</span>
+= Table.AddColumn(PM_Schedule, <span class="str">"PM_Status"</span>, each
+  <span class="kw">if</span> [NextDueDate] < DateTime.LocalNow() <span class="kw">then</span> <span class="str">"OVERDUE"</span>
+  <span class="kw">else if</span> [NextDueDate] < Date.AddDays(DateTime.Date(DateTime.LocalNow()), <span class="num">7</span>) <span class="kw">then</span> <span class="str">"DUE SOON"</span>
+  <span class="kw">else</span> <span class="str">"OK"</span>
+)</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#fcebeb;color:#791f1f;">4</div>
+          <div class="step-title">Downtime trend and Pareto analysis</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Build a Pareto chart to identify which failure codes cause the most downtime — the 80/20 rule is always visible in maintenance data:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span><strong>Bar chart:</strong> Downtime hours by Failure Code (sorted descending)</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Line overlay:</strong> Cumulative % of downtime (secondary Y axis)</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Area/Stacked bar:</strong> Monthly downtime split by Planned vs Unplanned</div>
+            <div class="check-item"><span class="check-icon">✓</span><strong>Scatter chart:</strong> MTBF vs MTTR per equipment — quickly identifies worst performers</div>
+          </div>
+          <div class="code-block"><span class="cm">// Cumulative % for Pareto line (create in DAX)</span>
+Cumulative_Downtime_Pct = 
+<span class="kw">VAR</span> CurrentCode = <span class="fn">SELECTEDVALUE</span>(Downtime[DowntimeCause])
+<span class="kw">VAR</span> TotalDT = <span class="fn">CALCULATE</span>(<span class="fn">SUM</span>(Downtime[DowntimeHours]), <span class="fn">ALL</span>(Downtime[DowntimeCause]))
+<span class="kw">VAR</span> CumulativeDT = 
+  <span class="fn">CALCULATE</span>(
+    <span class="fn">SUM</span>(Downtime[DowntimeHours]),
+    <span class="fn">FILTER</span>(
+      <span class="fn">ALL</span>(Downtime[DowntimeCause]),
+      <span class="fn">CALCULATE</span>(<span class="fn">SUM</span>(Downtime[DowntimeHours])) >=
+        <span class="fn">CALCULATE</span>(<span class="fn">SUM</span>(Downtime[DowntimeHours]),
+          <span class="fn">FILTER</span>(<span class="fn">ALL</span>(Downtime), Downtime[DowntimeCause] = CurrentCode)
+        )
+    )
+  )
+<span class="kw">RETURN</span>
+  <span class="fn">DIVIDE</span>(CumulativeDT, TotalDT)</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#fcebeb;color:#791f1f;">5</div>
+          <div class="step-title">Automated alerts with Power Automate</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Set up data-driven alerts so the team is notified before problems escalate:</p>
+          <div class="grid2">
+            <div class="mini-card">
+              <h4>Alert Type 1 — Data Alert in Service</h4>
+              <p>In Power BI Service, click a KPI card → click the bell icon → set threshold. Example: alert when Unplanned Downtime hours &gt; 8 this week. Sends email automatically.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Alert Type 2 — Power Automate Flow</h4>
+              <p>Trigger: <em>Power BI data alert triggered</em>. Action: Post to Teams channel "Maintenance Alerts" with equipment name, downtime hours, and suggested WO number.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Alert Type 3 — PM Due Reminder</h4>
+              <p>Scheduled flow daily at 7 AM. Query SharePoint PM list for NextDueDate within 3 days. Send Teams message to assigned technician with equipment details.</p>
+            </div>
+            <div class="mini-card">
+              <h4>Alert Type 4 — Weekly Report Email</h4>
+              <p>Every Monday morning: export maintenance dashboard PDF → send to maintenance manager with summary of the prior week's KPIs pre-populated.</p>
+            </div>
+          </div>
+          <div class="code-block"><span class="cm">// Teams adaptive card message body (JSON)</span>
+{
+  <span class="str">"type"</span>: <span class="str">"message"</span>,
+  <span class="str">"attachments"</span>: [{
+    <span class="str">"contentType"</span>: <span class="str">"application/vnd.microsoft.card.adaptive"</span>,
+    <span class="str">"content"</span>: {
+      <span class="str">"type"</span>: <span class="str">"AdaptiveCard"</span>,
+      <span class="str">"body"</span>: [
+        { <span class="str">"type"</span>: <span class="str">"TextBlock"</span>, <span class="str">"text"</span>: <span class="str">"PM Due in 3 Days"</span>, <span class="str">"weight"</span>: <span class="str">"Bolder"</span> },
+        { <span class="str">"type"</span>: <span class="str">"FactSet"</span>, <span class="str">"facts"</span>: [
+          { <span class="str">"title"</span>: <span class="str">"Equipment"</span>, <span class="str">"value"</span>: <span class="str">"@{items('Apply_to_each')?['EquipName']}"</span> },
+          { <span class="str">"title"</span>: <span class="str">"PM Type"</span>, <span class="str">"value"</span>: <span class="str">"@{items('Apply_to_each')?['PMType']}"</span> },
+          { <span class="str">"title"</span>: <span class="str">"Due Date"</span>, <span class="str">"value"</span>: <span class="str">"@{items('Apply_to_each')?['NextDueDate']}"</span> }
+        ]}
+      ]
+    }
+  }]
+}</div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num" style="background:#fcebeb;color:#791f1f;">6</div>
+          <div class="step-title">Final dashboard layout and publishing checklist</div>
+          <span class="step-chevron">▼</span>
+        </div>
+        <div class="step-body">
+          <p>Before publishing to Power BI Service for your team, run through this final checklist:</p>
+          <div class="checklist">
+            <div class="check-item"><span class="check-icon">✓</span>All slicers are synced across pages (View → Sync Slicers)</div>
+            <div class="check-item"><span class="check-icon">✓</span>Mobile layout configured (View → Mobile layout) — resize key KPIs for phone view</div>
+            <div class="check-item"><span class="check-icon">✓</span>Row-Level Security set up if different techs should only see their own equipment</div>
+            <div class="check-item"><span class="check-icon">✓</span>Tooltip pages created for rich hover-over detail on equipment bars</div>
+            <div class="check-item"><span class="check-icon">✓</span>Bookmarks created for "All Equipment", "Critical Only", "Overdue PMs" views</div>
+            <div class="check-item"><span class="check-icon">✓</span>Scheduled refresh enabled in Power BI Service (Settings → Datasets)</div>
+            <div class="check-item"><span class="check-icon">✓</span>Dashboard pinned to workspace home with key KPI tiles</div>
+            <div class="check-item"><span class="check-icon">✓</span>PDF subscription scheduled for weekly management report (Subscribe in Service)</div>
+          </div>
+          <div class="code-block"><span class="cm">// RLS filter for technician-scoped view</span>
+<span class="cm">// In Modeling → Manage Roles → Create role "Technician"</span>
+<span class="cm">// Table filter on Equipment:</span>
+[AssignedTech] = <span class="fn">USERPRINCIPALNAME</span>()</div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p>Pin your 4 most critical KPI cards (Availability, MTTR, PM Compliance, Cost) to a <strong>Power BI Dashboard</strong> (not just a Report page) — this is the homepage that auto-refreshes every 15 minutes and can be set as the team's default Teams tab.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleStep(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+</script>
